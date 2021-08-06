@@ -5,7 +5,22 @@ import Link from 'next/link';
 import Campaign from '../../../../ethereum/campaign';
 import RequestRow from '../../../../components/RequestRow';
 
-class RequestIndex extends Component {
+interface RequestIndexProps {
+  address: string;
+  approversCount: number;
+  requestsCount: number;
+  requests: Request[];
+}
+
+interface Request {
+  description: string;
+  value: string;
+  recipient: string;
+  completed: boolean;
+  approvalCount: string;
+}
+
+class RequestIndex extends Component<RequestIndexProps> {
   static async getInitialProps(props) {
     const { address } = props.query;
     const campaign = Campaign(address);
@@ -13,7 +28,7 @@ class RequestIndex extends Component {
     const approversCount = await campaign.methods.approversCount().call();
     const requests = await Promise.all(
       Array(parseInt(requestsCount))
-        .fill()
+        .fill({})
         .map((_, index) => {
           return campaign.methods.requests(index).call();
         })
@@ -27,7 +42,7 @@ class RequestIndex extends Component {
       return (
         <RequestRow
           key={index}
-          id={index}
+          id={index.toString()}
           request={request}
           address={this.props.address}
           approversCount={this.props.approversCount}

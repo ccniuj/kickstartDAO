@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import factory from '../ethereum/factory';
 import { Card, Button } from 'semantic-ui-react';
 import Layout from '../components/Layout';
-import Link from 'next/link'
+import Link from 'next/link';
+import { Campaign } from '../types/web3-v1-contracts/Campaign';
 
-class CampaignIndex extends Component {
+interface CampaignIndexProps {
+  campaigns: Campaign[]
+}
+
+class CampaignIndex extends Component<CampaignIndexProps> {
   static async getInitialProps() {
     const campaigns = await factory.methods.getDeployedCampaigns().call();
     return { campaigns };

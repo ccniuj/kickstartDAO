@@ -3,7 +3,22 @@ import { Button, Table } from 'semantic-ui-react';
 import web3 from '../ethereum/web3';
 import Campaign from '../ethereum/campaign';
 
-class RequestRow extends Component {
+interface RequestRowProps {
+  id: string;
+  address: string;
+  request: Request;
+  approversCount: number;
+}
+
+interface Request {
+  description: string;
+  value: string;
+  recipient: string;
+  completed: boolean;
+  approvalCount: string;
+}
+
+class RequestRow extends Component<RequestRowProps> {
   onApprove = async (event) => {
     event.preventDefault();
 
@@ -39,7 +54,7 @@ class RequestRow extends Component {
 
   render() {
     const { id, request, approversCount } = this.props;
-    const readyToFinalize = request.approvalCount > (approversCount/2);
+    const readyToFinalize = parseInt(request.approvalCount) > (approversCount/2);
 
     return (
       <Table.Row disabled={request.completed} positive={readyToFinalize && !request.completed}>

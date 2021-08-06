@@ -4,7 +4,11 @@ import Campaign from '../ethereum/campaign';
 import web3 from '../ethereum/web3';
 import Router from 'next/router'
 
-class ContributeForm extends Component {
+interface ContributeFormProps {
+  address: string;
+}
+
+class ContributeForm extends Component<ContributeFormProps> {
   state = {
     value: '',
     errorMessage: '',

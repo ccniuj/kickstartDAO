@@ -6,7 +6,11 @@ import web3 from '../../../../ethereum/web3';
 import Router from 'next/router';
 import Link from 'next/link';
 
-class RequestNew extends Component {
+interface RequestNewProp {
+  address: string;
+}
+
+class RequestNew extends Component<RequestNewProp> {
   state = {
     description: '',
     value: '',
